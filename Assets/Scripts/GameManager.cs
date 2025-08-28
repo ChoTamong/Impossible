@@ -39,12 +39,12 @@ public class GameManager : MonoBehaviour
     }
     public void SaveUserData()
     {
-        string json = JsonUtility.ToJson(userData, true); // 보기 좋게 저장
+        string json = JsonUtility.ToJson(userData, true); //저장
         File.WriteAllText(savePath, json);
-        Debug.Log("저장 완료: " + savePath);
+        Debug.Log("저장 경로: " + Application.persistentDataPath);
     }
 
-    // 📂 JSON 로드
+    //JSON 로드
     public void LoadUserData()
     {
         if (File.Exists(savePath))
