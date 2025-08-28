@@ -19,32 +19,40 @@ public class GameManager : MonoBehaviour
         {
             instance = this;
             DontDestroyOnLoad(gameObject);
-            savePath = Path.Combine(Application.persistentDataPath, "userdata.json");
         }
         else
         {
             Destroy(gameObject);
         }
+
+        savePath = Path.Combine(Application.persistentDataPath, "userdata.json");
     }
 
     // Update is called once per frame
     private void Start()
     {
-        userData = new UserData("조경표", 100000, 50000);
+        LoadUserData(); // 데이터 로드
+
+        if ( popupBank != null)
+        {
+            popupBank.Refresh();
+        }
 
         if (popupBank != null)
         {
             popupBank.Refresh();
         }
     }
+
+    //저장
     public void SaveUserData()
     {
         string json = JsonUtility.ToJson(userData, true); //저장
         File.WriteAllText(savePath, json);
-        Debug.Log("저장 경로: " + Application.persistentDataPath);
+        //Debug.Log("저장 경로: " + Application.persistentDataPath);
     }
 
-    //JSON 로드
+    //로드
     public void LoadUserData()
     {
         if (File.Exists(savePath))
@@ -56,6 +64,9 @@ public class GameManager : MonoBehaviour
         else
         {
             Debug.Log("저장된 파일이 없어 기본값 사용");
+            userData = new UserData("조경표", 100000, 50000);
+
+            SaveUserData();
         }
     }
 }
